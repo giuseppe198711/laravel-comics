@@ -12,7 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            ComicsTableSeeder::class,            
+            AuthorsTableSeeder::class,
+            AuthorsInfoTableSeeder::class,
+            GenresTableSeeder::class,
+            ComicsTableSeeder::class,          
         ]);
     }
 }
