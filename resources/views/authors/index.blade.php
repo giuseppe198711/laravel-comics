@@ -17,6 +17,8 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Cognome</th>
                 <th scope="col">Data di nascita</th>
+                <th scope="col">Nazionalità</th>
+                <th scope="col">Fumetti Scritti</th>
                 <th scope="col">Azioni</th>
             </tr>
         </thead>
@@ -26,6 +28,18 @@
                     <td>{{$author->name}}</td>
                     <td>{{$author->lastname}}</td>
                     <td>{{$author->date_of_birth}}</td>
+                    <td>{{$author->info->nationality}}</td>
+                    <td>
+                        <ul>
+                            @if (count($author->comics) > 0)
+                                @foreach ($author->comics as $comic)
+                                    <li>{{$comic->title}}</li>
+                                @endforeach
+                            @else
+                                <li style="color: red">Non ha scritto fumetti</li>
+                            @endif
+                        </ul>
+                    </td>
                     <td>
                         <form action="{{route('authors.destroy', $author->id)}}" method="POST">
                             @csrf
