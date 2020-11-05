@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comic;
+use App\Author;
+use App\Genre;
 
 class ComicController extends Controller
 {
@@ -26,6 +28,10 @@ class ComicController extends Controller
      */
     public function create()
     {
+        $authors = Author::all();
+        $genres = Genre::all();
+
+        return view("comics.create", compact("authors", "genres"));
     }
 
     /**
@@ -36,7 +42,21 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        if($data["cover"] == null) {
+            unset($data["cover"]);
+        }
+        
+        $newComic = new Comic;
+        $newComic->fill($data);
+        $newComic->save();
+
+        if(count($data["genres"]) > 0) {    
+            $newComic->genres()->sync($data["genres"]);
+        }
+        
+        return redirect()->route("comics.index");
     }
 
     /**
